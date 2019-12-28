@@ -1,0 +1,60 @@
+#app-container {
+    height: 100%;
+}
+
+#app-header {
+    height: 50px;
+    background-color: green;
+}
+
+#background-main-container {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+
+#background-main {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%
+}
+
+#second-section {
+    width: 100%;
+    background-color: azure;
+}
+
+#carousel-container {
+    text-align: center;
+}
+
+#background-fixed-container {
+
+}
+
+#background-fixed {
+
+}
+
+@media screen and (max-width: 575px) {
+    svg#rocket-smoke {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+ngb-carousel .picsum-img-wrapper {
+    position: relative;
+    height: 0;
+    padding-top: 55%; /* Keep ratio for 900x500 images */
+  }
+  
+  ngb-carousel .picsum-img-wrapper>img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }

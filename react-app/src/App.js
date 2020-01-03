@@ -1,19 +1,26 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
-import Welcome from './Components/Welcome.js';
-import Clock from './Components/Clock/Clock.js';
-import LoginControl from './Components/LoginControl/LoginControl';
-import NumberList from './Components/NumberList/NumberList';
+import NavBar from './Components/NavBar/NavBar';
+import TopicTeaser from './Components/Topic/TopicTeaser';
+import RouteService from './Services/RouteService';
+
+// Bootstrap Imports
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <div className="App">
-      <Welcome name="Taylor"/>
-      <LoginControl />
-      <Clock backgroundColor="green" />
-      <Clock backgroundColor="blue" />
-      <NumberList numbers={[1,2,3,4,5]} />
-    </div>
+    <Router>
+      <NavBar brand="Prompt Story"></NavBar>
+      <Route exact={true} path="/">
+        <div className="App" id="homePage">
+          <TopicTeaser topicName="History" />
+          <TopicTeaser topicName="Science" />
+          <TopicTeaser topicName="English" />
+        </div>
+      </Route>
+      <RouteService />
+    </Router>
   );
 }
 

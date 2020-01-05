@@ -13,7 +13,7 @@ class TopicPage extends React.Component {
 
     render() {
         return (
-            <div> HELLo
+            <div>
                 <PromptList topicName={this.props.topicName} />
             </div>
         );

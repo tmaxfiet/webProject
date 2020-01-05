@@ -1,0 +1,25 @@
+{
+  "name": "webProject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd react-app && npm start",
+    "server": "cd node-app && npm start",
+    "start": "concurrently --kill-others \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmaxfiet/webProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmaxfiet/webProject/issues"
+  },
+  "homepage": "https://github.com/tmaxfiet/webProject#readme",
+  "devDependencies": {
+    "concurrently": "^5.0.2"
+  }
+}

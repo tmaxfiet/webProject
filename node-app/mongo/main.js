@@ -13,7 +13,7 @@ function main() {
         }
         var item = {name: 'taco', tasty: true};
 
-        addCollection(client, 'foods', 'mexican', item).then( () => {
+        addItemToCollection(client, 'foods', 'mexican', item).then( () => {
             // Collection successfully added, close client
             client.close();
         }).catch( (err) => {
@@ -22,7 +22,7 @@ function main() {
     })
 }
 
-async function addCollection(client, dbName, collectionName, item) {
+async function addItemToCollection(client, dbName, collectionName, item) {
     return new Promise((resolve, reject) => {
         var db = client.db(dbName);
         checkIfCollectionExists(db, dbName, collectionName).then( (dbExists) => {
@@ -47,6 +47,8 @@ async function addCollection(client, dbName, collectionName, item) {
                         
                         console.log('Added to collection: ', collectionName, ' item: ', item);
                     });
+                } else {
+                    console.log('item: ', item, ' Already in collection: ', collectionName);
                 }
                 // End of promise chain, resolve if reached here
                 resolve();
@@ -105,4 +107,4 @@ async function checkIfItemExistsInCollection(collection, dbName, collectionName,
 
 
 
-main();
+// main();

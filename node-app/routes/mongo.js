@@ -26,12 +26,16 @@ router.get('/', (req, res) => {
 	});
 });
 
-router.get('/collectionInfos', (req, res) => {
+router.get('/collectionNames', (req, res) => {
 	database.listCollections().toArray(function(err, collectionInfos) {
 		if(err) {
 			return res.status(500).send(err);
 		}
-		res.send(collectionInfos);
+		var collectionNames = [];
+		collectionInfos.forEach( (collection) => {
+			collectionNames.push(collection.name);
+		})
+		res.send(collectionNames);
 	});
 })
 

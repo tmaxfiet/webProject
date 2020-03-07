@@ -1,5 +1,6 @@
 import React from 'react';
 import TopicTeaser from './TopicTeaser';
+const axios = require('axios'); 
 
 class TopicMain extends React.Component {
     constructor(props) {
@@ -13,36 +14,34 @@ class TopicMain extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mounted ', `${this.props.baseUrl}`);
-        fetch("http://localhost:3001/data/collectionInfos")
-            .then(res => res.json())
-            .then(
-            (result) => {
+        const urlString = window.location.protocol + "//" + window.location.hostname + ":3001/data/collectionNames";
+        axios.get(urlString)
+            .then( (res) => {
                 this.setState({
-                isLoaded: true,
-                items: result.items
+                    isLoaded: true,
+                    topicNames: res.data
                 });
-            },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
-            (error) => {
-                this.setState({
-                isLoaded: true,
-                error
-                });
-            }
-        )
+            })
+            .catch( (err) => {
+                console.log('Error in topic main get: ', err);
+            })
     }
 
     render() {
-        return (
-            <div id="topic-main">
-                <TopicTeaser topicName="History" />
-                <TopicTeaser topicName="Science" />
-                <TopicTeaser topicName="English" />
-            </div>
-        );
+        const { error, isLoaded, topicNames } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return (
+                <div id="topic-main">
+                    {topicNames.map( (name) => (
+                        <TopicTeaser topicName={name} key={name} />
+                    ))}
+                </div>
+            );
+        }
     }
 }
 

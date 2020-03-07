@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
     
-var request = require('request'); // "Request" library
+const request = require('request'); // "Request" library
 
 var client_id = '5c21721d72e3461dbf5ea7b48e51da7f'; // Your client id
 var client_secret = '2174abe7db37474b8ad67e509fb221dc'; // Your secret

@@ -1,0 +1,1 @@
+export const collectionNamesRoute = 'data/collectionNames';

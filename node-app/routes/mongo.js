@@ -7,7 +7,7 @@ const DATABASE_NAME = 'foods';
 
 const router = express.Router();
 
-var database, collection;
+var database, collection, collectionNames;
 client.connect( (err) => {
 	if (err) {
 		console.log('Error connecting to mongodb: ', err);
@@ -15,7 +15,44 @@ client.connect( (err) => {
 	}
 	database = client.db(DATABASE_NAME);
 	collection = database.collection('mexican');
+
+	// Set up routes for every collection
+	// `${baseURL}+/${collection_name}`
+	database.listCollections().toArray(function(err, collectionInfos) {
+		if(err) {
+			return;
+		}
+		collectionNames = [];
+		collectionInfos.forEach( (collection) => {
+			// Use this name to set up all the document routes for this collection name
+			var documents = setUpCollectionNameRoutes(collection.name).then( (documentArray) => {
+				// Set up the route for the collection name
+				router.get(`/${collection.name}`, (req, res) => {
+					res.send(documentArray);
+				})
+			});
+			// Now set up route for collection name
+			collectionNames.push(collection.name);
+		})
+	});
 });
+
+/**
+ * Sets up route for a specific document `${baseURL}+/${collection_name}/${document_id}`
+ */
+async function setUpCollectionNameRoutes(collectionName) {
+	return new Promise((resolve, reject) => {
+		database.collection(collectionName).find({}).toArray(function(err, documentArray) {
+			// TODO do we need a route for every doc? probably not
+			documentArray.forEach( (document) => {
+				router.get(`/${collectionName}/${document.id}`, (req, res) => {
+					res.send(document);
+				})
+			});
+			resolve(documentArray);
+		});
+	});
+};
 
 router.get('/', (req, res) => {
 	collection.find({}).toArray((err, result) => {

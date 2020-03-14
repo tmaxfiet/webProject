@@ -19,7 +19,7 @@ class TopicMain extends React.Component {
             .then( (res) => {
                 this.setState({
                     isLoaded: true,
-                    topicNames: res.data
+                    topicNames: res.data,
                 });
             })
             .catch( (err) => {

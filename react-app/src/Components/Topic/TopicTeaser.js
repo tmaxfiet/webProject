@@ -14,7 +14,7 @@ class TopicTeaser extends React.Component {
 
     render() {
         return (
-            <Link to={"/"+this.props.topicName}>
+            <Link to={"/"+this.props.topicName.toLowerCase()}>
                 <Jumbotron onClick={this.handleJumbotronClick}>
                     <h2> {this.props.topicName} </h2>
                     <p>

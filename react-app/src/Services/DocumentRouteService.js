@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import PlaylistMain from '../Components/Playlist/PlaylistMain';
 const axios = require('axios');
 
 class DocumentRouteService extends React.Component {
@@ -30,7 +31,7 @@ class DocumentRouteService extends React.Component {
                 });
                 const documentRoutes = this.state.documents.map((document) =>
                     <Route exact={true} path={"/" + this.props.genreName.toLowerCase() + "/" + document.name} key={this.props.genreName+document.name+"Route"}> 
-                       <div> temp TODO</div>
+                       <PlaylistMain playlist={ document } />
                     </Route>
                 );
                 this.setState({documentRoutes: documentRoutes});

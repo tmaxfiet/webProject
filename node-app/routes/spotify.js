@@ -25,20 +25,65 @@ router.get('/', (req, res) => {
             // use the access token to access the Spotify Web API
             var token = body.access_token;
             var options = {
-            url: 'https://api.spotify.com/v1/users/jmperezperez',
-            headers: {
+              url: 'https://api.spotify.com/v1/users/jmperezperez',
+              headers: {
                 'Authorization': 'Bearer ' + token
-            },
-            json: true
+              },
+              json: true
             };
             request.get(options, function(error, response, body) {
-                console.log(body);
-                res.send(body);
+              res.send(body);
             });
         } else {
-            res.send('Error at spotify base');
+          res.send('Error at spotify base');
         }
     });
 });
+
+function getPlaylistsBySearch(searchKeyword) {
+  request.post(authOptions, function(error, response, body) {
+    return new Promise((resolve, reject) => {
+      if (!error && response.statusCode === 200) {
+          // use the access token to access the Spotify Web API
+          var token = body.access_token;
+          var options = {
+            url: `https://api.spotify.com/v1/search?query=${searchKeyword}&type=playlist`,
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+            json: true
+          };
+          request.get(options, function(error, response, body) {
+            console.log(body);
+            resolve(body);
+          });
+      } else {
+          reject(`Error at spotify/${searchKeyword}`);
+      }
+    });
+  });
+}
+
+/* router.get('/country', (req, res) => {
+  request.post(authOptions, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+        // use the access token to access the Spotify Web API
+        var token = body.access_token;
+        var options = {
+          url: 'https://api.spotify.com/v1/search?query=country&type=playlist',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          },
+          json: true
+        };
+        request.get(options, function(error, response, body) {
+          console.log(body);
+          res.send(body);
+        });
+    } else {
+        res.send('Error at spotify/country');
+    }
+  });
+}) */
 
 module.exports = router;

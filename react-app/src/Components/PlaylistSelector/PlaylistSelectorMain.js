@@ -1,6 +1,6 @@
 import React from 'react';
 import PlaylistTeaser from './PlaylistTeaser';
-const axios = require('axios');
+import * as spotifyService from '../../Services/SpotifyService';
 
 class PlaylistSelectorMain extends React.Component {
     constructor(props) {
@@ -9,22 +9,21 @@ class PlaylistSelectorMain extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            playlists: [],
+            playlists: {},
         }
     }
 
     componentDidMount() {
-        const urlString = window.location.protocol + "//" + window.location.hostname + `:3001/data/${this.props.genreName}`;
-        axios.get(urlString)
+        spotifyService.getPlaylistsBySearch(`${this.props.genreName}`)
             .then( (res) => {
                 this.setState({
                     isLoaded: true,
-                    playlists: res.data,
+                    playlists: res.playlists.items,
                 });
             })
             .catch( (err) => {
-                console.log('Error in PlaylistMain get for: ', this.props.genreName, ' : ', err);
-            })
+                console.log('Error in PlaylistSelectorMain get for: ', this.props.genreName, ' : ', err);
+            });
     }
 
     render() {
@@ -35,9 +34,9 @@ class PlaylistSelectorMain extends React.Component {
             return <div>Loading...</div>;
         } else {
             return (
-                <div id="playlist-main">
+                <div id="playlist-selector-main">
                     {playlists.map( (playlist) => (
-                        <PlaylistTeaser playlistName={playlist.name} collectionName={this.props.genreName} key={playlist.name+"Teaser"} />
+                        <PlaylistTeaser playlistName={playlist.name} playlistId={playlist.id} collectionName={this.props.genreName} key={playlist.id+"Teaser"} />
                     ))}
                 </div>
             );

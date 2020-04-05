@@ -1,3 +1,11 @@
+html, body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
 }
@@ -30,6 +38,7 @@
 
 #app-main-container {
   padding: 10px;
+  height: 100%;
 }
 
 @keyframes App-logo-spin {

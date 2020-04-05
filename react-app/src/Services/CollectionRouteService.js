@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import DocumentRouteService from './DocumentRouteService';
 import PlaylistSelectorMain from '../Components/PlaylistSelector/PlaylistSelectorMain';
 import * as Constants from '../Settings/constants';
+import PlaylistMain from '../Components/Playlist/PlaylistMain';
 const axios = require('axios');
 
 class CollectionRouteService extends React.Component {
@@ -40,6 +41,7 @@ class CollectionRouteService extends React.Component {
                             <PlaylistSelectorMain genreName={collectionName} key={collectionName+"PlaylistSelectorMain"} />
                         </Route>
                         <DocumentRouteService genreName={collectionName} key={collectionName+"DocumentRouteService"}/>
+                        <Route path={"/" + collectionName.toLowerCase()+"/:playlistName/:playlistId"} component={PlaylistMain}/>
                     </div>
                 );
 

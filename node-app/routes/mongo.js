@@ -42,6 +42,7 @@ client.connect( (err) => {
  */
 async function setUpCollectionNameRoutes(collectionName) {
 	return new Promise((resolve, reject) => {
+		if (!database) reject('Database not connected');
 		database.collection(collectionName).find({}).toArray(function(err, documentArray) {
 			// TODO do we need a route for every doc? probably not
 			documentArray.forEach( (document) => {

@@ -15,12 +15,27 @@ var authOptions = {
   json: true
 };
 
+var stored_token = '';
+
+function getStoredToken() {
+    request.post(authOptions, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            // use the access token to access the Spotify Web API
+            stored_token = body.access_token;
+        }
+        else {
+            console.log(`Error in getting spotify service`);
+        }
+    });
+}
+
 export async function getPlaylistsBySearch(searchKeyword) {
     return new Promise((resolve, reject) => {
         request.post(authOptions, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 // use the access token to access the Spotify Web API
                 var token = body.access_token;
+                stored_token = body.access_token;
                 var options = {
                     url: `https://api.spotify.com/v1/search?query=${searchKeyword}&type=playlist`,
                     headers: {
@@ -45,6 +60,7 @@ export async function getTracksByPlaylistId(playlistId) {
             if (!error && response.statusCode === 200) {
                 // use the access token to access the Spotify Web API
                 var token = body.access_token;
+                stored_token = body.access_token;
                 var options = {
                     url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
                     headers: {
@@ -59,6 +75,27 @@ export async function getTracksByPlaylistId(playlistId) {
             else {
                 reject(`Error in getTracksByPlaylistID: ${playlistId}`);
             }
+        });
+    });
+}
+
+export async function getAudioAnalysisByTrack(trackId) {
+    if (stored_token === '') {
+        getStoredToken();
+    }
+    console.log('stored token ', stored_token)
+
+    return new Promise((resolve, reject) => {
+        var token = stored_token;
+        var options = {
+            url: `https://api.spotify.com/v1/audio-analysis/${trackId}`,
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            json: true
+        };
+        request.get(options, function (error, response, body) {
+            resolve(body);
         });
     });
 }

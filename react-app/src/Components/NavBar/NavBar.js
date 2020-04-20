@@ -5,11 +5,6 @@ import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 class NavBar extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
-
     render() {
         return (
             <Navbar id="navbar-main" expand="lg" variant="light" style={{backgroundColor: "#b5d6bd"}}>

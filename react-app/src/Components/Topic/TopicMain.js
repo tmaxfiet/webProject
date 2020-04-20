@@ -1,5 +1,6 @@
 import React from 'react';
 import TopicTeaser from './TopicTeaser';
+import SpotifyLogin from '../SpotifyPlayback/SpotifyLogin';
 const axios = require('axios'); 
 
 class TopicMain extends React.Component {
@@ -10,6 +11,7 @@ class TopicMain extends React.Component {
             error: null,
             isLoaded: false,
             topicNames: [],
+            token: '',
         }
     }
 
@@ -17,9 +19,14 @@ class TopicMain extends React.Component {
         const urlString = window.location.protocol + "//" + window.location.hostname + ":3001/data/collectionNames";
         axios.get(urlString)
             .then( (res) => {
+                var newToken = '';
+                if(this.props.location && this.props.location.state) {
+                    newToken = this.props.location.state.token;
+                }
                 this.setState({
                     isLoaded: true,
                     topicNames: res.data,
+                    token: newToken,
                 });
             })
             .catch( (err) => {
@@ -28,7 +35,7 @@ class TopicMain extends React.Component {
     }
 
     render() {
-        const { error, isLoaded, topicNames } = this.state;
+        const { error, isLoaded, topicNames, token } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -36,6 +43,7 @@ class TopicMain extends React.Component {
         } else {
             return (
                 <div id="topic-main">
+                    <SpotifyLogin token={token} />
                     {topicNames.map( (name) => (
                         <TopicTeaser topicName={name} key={name} />
                     ))}

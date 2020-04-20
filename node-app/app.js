@@ -7,7 +7,12 @@ const spotifyRoutes = require('./routes/spotify');
 const app = express();
 const uiBuildPath = '../react-app/build';
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://taylor-virtualbox:3000',
+    credentials: true,
+
+}
+app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, uiBuildPath)));
 
 app.get('/', (req, res) => {

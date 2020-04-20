@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 import './PlaylistTeaser.css';
 
 class PlaylistTeaser extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="prompt-teaser">

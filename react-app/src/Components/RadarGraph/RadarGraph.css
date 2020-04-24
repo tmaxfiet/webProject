@@ -1,3 +1,33 @@
-#my-canvas {
+.canvas-class {
     border: 5px solid black;
+    max-width: 600px;
+    height: 300px;
+    position: absolute;
+}
+#beats-canvas {
+    border: 5px solid black;
+    max-width: 600px;
+    height: 300px;
+}
+
+#bars-canvas {
+    border: 5px solid black;
+    max-width: 600px;
+    height: 300px;
+}
+
+#segments-canvas {
+    border: 5px solid black;
+    max-width: 600px;
+    height: 300px;
+}
+
+#sections-canvas {
+    border: 5px solid black;
+    max-width: 600px;
+    height: 300px;
+}
+
+#radar-graph-container {
+ 
 }

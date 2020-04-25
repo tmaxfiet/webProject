@@ -23,7 +23,9 @@ var options = {
     },
     legend: {
         display: false,
-    }
+    },
+    aspectRatio: 1,
+    maintainAspectRatio: false,
 };
 
 class RadarGraph extends React.Component {
@@ -192,25 +194,21 @@ class RadarGraph extends React.Component {
         return (
             <div id="radar-graph-container">
                 <canvas
-                    style={{ width: 800, height: 300 }}
                     ref={node => (this.beatsNode = node)}
                     id='beats-canvas'
                     className='canvas-class'
                 />
                 <canvas
-                    style={{ width: 800, height: 300 }}
                     ref={node => (this.barsNode = node)}
                     id='bars-canvas'
                     className='canvas-class'
                 />
                 <canvas
-                    style={{ width: 800, height: 300 }}
                     ref={node => (this.segmentsNode = node)}
                     id='segments-canvas'
                     className='canvas-class'
                 />
                 <canvas
-                    style={{ width: 800, height: 300 }}
                     ref={node => (this.sectionsNode = node)}
                     id='sections-canvas'
                     className='canvas-class'

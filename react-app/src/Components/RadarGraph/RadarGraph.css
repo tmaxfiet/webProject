@@ -1,33 +1,14 @@
 .canvas-class {
-    border: 5px solid black;
-    max-width: 600px;
-    height: 300px;
+    max-width: 100%;
+    height: 100%;
+    width: 100%;
     position: absolute;
-}
-#beats-canvas {
-    border: 5px solid black;
-    max-width: 600px;
-    height: 300px;
-}
-
-#bars-canvas {
-    border: 5px solid black;
-    max-width: 600px;
-    height: 300px;
-}
-
-#segments-canvas {
-    border: 5px solid black;
-    max-width: 600px;
-    height: 300px;
-}
-
-#sections-canvas {
-    border: 5px solid black;
-    max-width: 600px;
-    height: 300px;
 }
 
 #radar-graph-container {
- 
+border: 1px solid black;
+ height: 100%;
+ width: 100%;
+ max-width: 100%;
+ max-height: 100%;
 }

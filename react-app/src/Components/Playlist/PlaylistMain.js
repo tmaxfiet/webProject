@@ -1,5 +1,8 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import * as spotifyService from '../../Services/SpotifyService';
 import './PlaylistMain.css';
 import SpotifyLogin from '../SpotifyPlayback/SpotifyLogin';
@@ -66,19 +69,25 @@ class PlaylistMain extends React.Component {
         } else {
             return (
                 <div id="playlist-main">
-                    {this.props.match.params.playlistName}
-                    <div id="song-container">
-                        <ListGroup variant='flush'>
-                            {songs.map( (song) => (
-                                <div className="song-div" key={song.track.id} onClick={() => {this.setupAudioAnalysis(song.track) }}> 
-                                    <ListGroup.Item action className="song-div"> { song.track.name } </ListGroup.Item>
-                                </div>
-                            ))}
-                        </ListGroup>
-                    </div>
                     <SpotifyLogin />
                     <SpotifyPlayback uris={uris} selectedSong={this.state.selectedSong} />
-                    <RadarGraph audioData={this.state.selectedAudioData} />
+                    <Container fluid>
+                        {this.props.match.params.playlistName}
+                        <Row>
+                            <Col s={12} xs={12} md={6}>
+                                <ListGroup id="song-container" variant='flush'>
+                                    {songs.map( (song) => (
+                                        <div className="song-div" key={song.track.id} onClick={() => {this.setupAudioAnalysis(song.track) }}> 
+                                            <ListGroup.Item action className="song-div"> { song.track.name } </ListGroup.Item>
+                                        </div>
+                                    ))}
+                                </ListGroup>
+                            </Col>
+                            <Col s={12} xs={12} md={6} style={{height:300}}>
+                                <RadarGraph audioData={this.state.selectedAudioData} />
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
             );
         }

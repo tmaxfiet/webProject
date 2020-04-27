@@ -29,7 +29,8 @@ var options = {
 };
 
 class RadarGraph extends React.Component {
-    componentDidUpdate() {
+    
+    componentDidMount() {
         const beatsNode = this.beatsNode;
         const barsNode = this.barsNode;
         const segmentsNode = this.segmentsNode;
@@ -79,114 +80,122 @@ class RadarGraph extends React.Component {
          * Create individual chart for each dataSet since calling so many updates
          * steps on each other and ruins 'duration' animation
          */
-        let myBeatsChart = new Chart(beatsNode, {
+        this.myBeatsChart = new Chart(beatsNode, {
             type: 'radar',
             data: beatsData,
             options: options
         });
 
-        let myBarsChart = new Chart(barsNode, {
+        this.myBarsChart = new Chart(barsNode, {
             type: 'radar',
             data: barsData,
             options: options
         });
 
-        let mySectionsChart = new Chart(sectionsNode, {
+        this.mySectionsChart = new Chart(sectionsNode, {
             type: 'radar',
             data: sectionsData,
             options: options
         });
 
-        let mySegmentsChart = new Chart(segmentsNode, {
+        this.mySegmentsChart = new Chart(segmentsNode, {
             type: 'radar',
             data: segmentsData,
             options: options,
         });
 
+        // create timeout array
+        this.timeouts = [];
+    }
 
-
+    componentDidUpdate() {
+        // Loop over any old timeouts created
+        for (var i=this.timeouts.length-1; i>=0; i--) {
+            clearTimeout(this.timeouts.pop());
+        }
+        
         // Handles graph updates for beats, first two indices are beats 'zone'
         this.props.audioData.beats.forEach((beat) => {
             // Wait for beat to have happened
-            setTimeout(() => {
+            this.timeouts.push(setTimeout(() => {
                 // Set beats value to 1 for half its duration
-                myBeatsChart.data.datasets[0].data = [1, 1, 0, 0, 0];
-                myBeatsChart.update({
+                this.myBeatsChart.data.datasets[0].data = [1, 1, 0, 0, 0];
+                this.myBeatsChart.update({
                     duration: beat.duration * 1000 / 2,
                     lazy: false
                 });
-                setTimeout(() => {
+                this.timeouts.push(setTimeout(() => {
                     // Set beats value to 0 for second half, simulates up down of beat
-                    myBeatsChart.data.datasets[0].data = [0, 0, 0, 0, 0];
-                    myBeatsChart.update({
+                    this.myBeatsChart.data.datasets[0].data = [0, 0, 0, 0, 0];
+                    this.myBeatsChart.update({
                         duration: beat.duration * 1000 / 2,
                         lazy: false
                     });
-                }, beat.duration * 1000 / 2)
-            }, beat.start * 1000);
+                }, beat.duration * 1000 / 2))
+            }, beat.start * 1000));
         });
 
         // Handles graph updates for bars, index 2 & 3 are bars zone
         this.props.audioData.bars.forEach((bar) => {
             // Wait for bar to have happened
-            setTimeout(() => {
+            this.timeouts.push(setTimeout(() => {
                 // Set bars value to 1 for half its duration
-                myBarsChart.data.datasets[0].data = [0, 1, 1, 0, 0, 0];
-                myBarsChart.update({
+                this.myBarsChart.data.datasets[0].data = [0, 1, 1, 0, 0, 0];
+                this.myBarsChart.update({
                     duration: bar.duration * 1000 / 2,
                     lazy: false
                 });
-                setTimeout(() => {
+                this.timeouts.push(setTimeout(() => {
                     // Set bars value to 0 for second half, simulates up down of bar
-                    myBarsChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
-                    myBarsChart.update({
+                    this.myBarsChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+                    this.myBarsChart.update({
                         duration: bar.duration * 1000 / 2,
                         lazy: false
                     });
-                }, bar.duration * 1000 / 2)
-            }, bar.start * 1000);
+                }, bar.duration * 1000 / 2))
+            }, bar.start * 1000));
         });
 
         // Handles graph updates for sections, index 3 & 4 is section zone
         this.props.audioData.sections.forEach((section) => {
             // Wait for section to have happened
-            setTimeout(() => {
+            this.timeouts.push(setTimeout(() => {
                 // Set sections value to 1 for half its duration
-                mySectionsChart.data.datasets[0].data = [0, 0, 1, 1, 0, 0];
-                mySectionsChart.update({
+                this.mySectionsChart.data.datasets[0].data = [0, 0, 1, 1, 0, 0];
+                this.mySectionsChart.update({
                     duration: section.duration * 1000 / 2,
                     lazy: false
                 });
-                setTimeout(() => {
+                this.timeouts.push(setTimeout(() => {
                     // Set sections value to 0 for second half, simulates up down of section
-                    mySectionsChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
-                    mySectionsChart.update({
+                    this.mySectionsChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+                    this.mySectionsChart.update({
                         duration: section.duration * 1000 / 2,
                         lazy: false
                     });
-                }, section.duration * 1000 / 2)
-            }, section.start * 1000);
+                }, section.duration * 1000 / 2))
+            }, section.start * 1000));
         });
 
         // Handles graph updates for segments, index 4, 5 & 1 is segment zone
         this.props.audioData.segments.forEach((segment) => {
             // Wait for segment to have happened
-            setTimeout(() => {
+            this.timeouts.push(setTimeout(() => {
                 // Set segments value to 1 for half its duration
-                mySegmentsChart.data.datasets[0].data = [1, 0, 0, 1, 1];
-                mySegmentsChart.update({
+                this.mySegmentsChart.data.datasets[0].data = [1, 0, 0, 1, 1];
+                this.mySegmentsChart.update({
                     duration: segment.duration * 1000 / 2,
                     lazy: false
                 });
-                setTimeout(() => {
+                this.timeouts.push(setTimeout(() => {
                     // Set segments value to 0 for second half, simulates up down of segment
-                    mySegmentsChart.data.datasets[0].data = [0, 0, 0, 0, 0];
-                    mySegmentsChart.update({
+                    this.mySegmentsChart.data.datasets[0].data = [0, 0, 0, 0, 0];
+                    this.mySegmentsChart.update({
                         duration: segment.duration * 1000 / 2,
                         lazy: false
                     });
-                }, segment.duration * 1000 / 2)
-            }, segment.start * 1000);
+                }, segment.duration * 1000 / 2))
+            }, segment.start * 1000));
         });
     }
 

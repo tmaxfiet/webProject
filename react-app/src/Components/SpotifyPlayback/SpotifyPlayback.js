@@ -38,14 +38,22 @@ class SpotifyPlayback extends React.Component {
       }
     }
 
-    componentDidUpdate() {
-      // A song selection changed, switch to this song
-      axios.put( window.location.protocol + "//" + window.location.hostname + ":3001/spotify/start", {uris: [this.props.selectedSong]} ).then( (res) => {
+    componentDidUpdate(prevProps) {
+      if (this.props.selectedSong !== prevProps.selectedSong) {
+        // A song selection changed, switch to this song
+        axios.put( window.location.protocol + "//" + window.location.hostname + ":3001/spotify/start", {uris: [this.props.selectedSong]} ).then( (res) => {
 
-      })
-      .catch( (err) => {
-        console.log('Error starting spotify: ', err);
-      })
+        })
+        .catch( (err) => {
+          console.log('Error starting spotify: ', err);
+        })
+      }
+    
+      if (this.props.paused !== prevProps.paused) {
+        if(this.props.paused) {
+          this.stopPlaying();
+        }
+      }
     }
 
     createEventHandlers() {
@@ -101,8 +109,6 @@ class SpotifyPlayback extends React.Component {
     render() {
         return (
             <div id="spotify-playback" ref={el => (this.div = el)}>
-                <button onClick={this.startPlayingAll}> CLICK TO START </button>
-                <button onClick={this.stopPlaying}> CLICK TO PAUSE </button>
             </div>
         )
     }

@@ -108,10 +108,27 @@ class RadarGraph extends React.Component {
         this.timeouts = [];
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        // No actual data change, first render triggering a componentDidUpdate
+        if(this.props.audioData === prevProps.audioData && this.props.paused === prevProps.paused) {
+            return;
+        }
+
         // Loop over any old timeouts created
         for (var i=this.timeouts.length-1; i>=0; i--) {
             clearTimeout(this.timeouts.pop());
+        }
+
+        // Reset all charts
+        this.myBeatsChart.reset();
+        this.myBarsChart.reset();
+        this.mySectionsChart.reset();
+        this.mySegmentsChart.reset();
+
+        if(this.props.paused !== prevProps.paused) {
+            if(this.props.paused) {
+                return;
+            }
         }
         
         // Handles graph updates for beats, first two indices are beats 'zone'

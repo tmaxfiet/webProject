@@ -20,9 +20,11 @@ class PlaylistMain extends React.Component {
             uris: [],
             selectedAudioData: {},
             selectedSong: '',
+            paused: true,
         }
 
         this.setupAudioAnalysis = this.setupAudioAnalysis.bind(this);
+        this.stopPlaying = this.stopPlaying.bind(this);
     }
 
     componentDidMount() {
@@ -44,20 +46,23 @@ class PlaylistMain extends React.Component {
     }
 
     setupAudioAnalysis(songTrack) {
-        console.log('id ', songTrack.id);
-
-        console.log('selectedSong ', songTrack.uri);
         spotifyService.getAudioAnalysisByTrack(`${songTrack.id}`)
             .then( (res) => {
-                console.log('setupAudioAnalysis ', res)
                 this.setState({
                     selectedAudioData: res,
                     selectedSong: songTrack.uri,
+                    paused: false,
                 });
             })
             .catch( (err) => {
                 console.log('Error in PlaylisMain getting audio analysis from spotify for: ', songTrack.id, ' : ', err);
             });   
+    }
+
+    stopPlaying() {
+        this.setState( {
+            paused: true,
+        });
     }
 
     render() {
@@ -70,7 +75,8 @@ class PlaylistMain extends React.Component {
             return (
                 <div id="playlist-main">
                     <SpotifyLogin />
-                    <SpotifyPlayback uris={uris} selectedSong={this.state.selectedSong} />
+                    <button onClick={this.stopPlaying}> Stop Song </button>
+                    <SpotifyPlayback uris={uris} selectedSong={this.state.selectedSong} paused={this.state.paused} />
                     <Container fluid>
                         {this.props.match.params.playlistName}
                         <Row>
@@ -84,7 +90,7 @@ class PlaylistMain extends React.Component {
                                 </ListGroup>
                             </Col>
                             <Col s={12} xs={12} md={6} style={{height:300}}>
-                                <RadarGraph audioData={this.state.selectedAudioData} />
+                                <RadarGraph audioData={this.state.selectedAudioData} paused={this.state.paused} />
                             </Col>
                         </Row>
                     </Container>

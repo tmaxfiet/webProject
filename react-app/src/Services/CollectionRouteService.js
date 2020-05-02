@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import DocumentRouteService from './DocumentRouteService';
 import PlaylistSelectorMain from '../Components/PlaylistSelector/PlaylistSelectorMain';
 import * as Constants from '../Settings/constants';
 import PlaylistMain from '../Components/Playlist/PlaylistMain';
@@ -40,7 +39,6 @@ class CollectionRouteService extends React.Component {
                         <Route exact={true} path={"/" + collectionName.toLowerCase()} key={collectionName+"Route"}> 
                             <PlaylistSelectorMain genreName={collectionName} key={collectionName+"PlaylistSelectorMain"} />
                         </Route>
-                        <DocumentRouteService genreName={collectionName} key={collectionName+"DocumentRouteService"}/>
                         <Route path={"/" + collectionName.toLowerCase()+"/:playlistName/:playlistId"} component={PlaylistMain}/>
                     </div>
                 );

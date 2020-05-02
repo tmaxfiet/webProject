@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import * as spotifyService from '../../Services/SpotifyService';
 import './PlaylistMain.css';
-import SpotifyLogin from '../SpotifyPlayback/SpotifyLogin';
 import SpotifyPlayback from '../SpotifyPlayback/SpotifyPlayback';
 import RadarGraph from '../RadarGraph/RadarGraph';
 
@@ -70,11 +69,10 @@ class PlaylistMain extends React.Component {
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>;
+            return <div id="playlist-main-loading">Loading...</div>;
         } else {
             return (
                 <div id="playlist-main">
-                    <SpotifyLogin />
                     <button onClick={this.stopPlaying}> Stop Song </button>
                     <SpotifyPlayback uris={uris} selectedSong={this.state.selectedSong} paused={this.state.paused} />
                     <Container fluid>

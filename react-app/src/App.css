@@ -1,9 +1,5 @@
-html, body {
-  height: 100%;
-}
-
-#root {
-  height: 100%;
+html, body, #root {
+  height: 100%;;
 }
 
 .App {
@@ -38,7 +34,7 @@ html, body {
 
 #app-main-container {
   padding: 10px;
-  height: 100%;
+  min-height: 100%;
 }
 
 @keyframes App-logo-spin {

@@ -3,7 +3,7 @@ const express = require('express');
 const MongoClient = require("mongodb").MongoClient;
 const uri = "mongodb+srv://dbUser:Justinmax1024!@cluster0-crzjm.azure.mongodb.net/test?retryWrites=true&w=majority"
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-const DATABASE_NAME = 'foods';
+const DATABASE_NAME = 'study_noise';
 
 const router = express.Router();
 
@@ -14,7 +14,6 @@ client.connect( (err) => {
 		return;
 	}
 	database = client.db(DATABASE_NAME);
-	collection = database.collection('mexican');
 
 	// Set up routes for every collection
 	// `${baseURL}+/${collection_name}`

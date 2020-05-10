@@ -8,7 +8,7 @@ const app = express();
 const uiBuildPath = '../react-app/build';
 
 const corsOptions = {
-    origin: 'http://taylor-virtualbox:3000',
+    origin: 'http://localhost:3000',
     credentials: true,
 
 }

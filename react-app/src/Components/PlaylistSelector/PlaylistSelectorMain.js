@@ -36,7 +36,7 @@ class PlaylistSelectorMain extends React.Component {
             return (
                 <div id="playlist-selector-main">
                     {playlists.map( (playlist) => (
-                        <PlaylistTeaser playlistName={playlist.name} playlistId={playlist.id} collectionName={this.props.genreName} key={playlist.id+"Teaser"} />
+                        <PlaylistTeaser playlistName={playlist.name} playlistId={playlist.id} images={playlist.images} description={playlist.description} collectionName={this.props.genreName} key={playlist.id+"Teaser"} />
                     ))}
                 </div>
             );

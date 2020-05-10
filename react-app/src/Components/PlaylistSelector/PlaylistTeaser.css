@@ -1,3 +1,52 @@
+#playlist-selector-main {
+    text-align: center;
+}
+
 .prompt-teaser {
-    border: 1px solid black;
+    width: 300px;
+    height: 480px;
+    display: inline-block;
+    padding: 5px;
+}
+
+.card {
+    color: black ;
+    height: 100%;
+    text-decoration: none;
+}
+
+.prompt-link:hover {
+    text-decoration: none !important;
+}
+
+.card:hover {
+    color: rgba(134, 206, 164, 0.8) !important;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.card-title {
+    height: 48px;
+}
+
+.card-body {
+    height: 124px;
+}
+
+.teaser-description {
+    max-height: 80px;
+    overflow: auto;
+}
+
+.teaser-description a {
+    color: inherit;
+}
+
+.teaser-description a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.teaser-image {
+    height: 298px;
+    width: 298px;
 }

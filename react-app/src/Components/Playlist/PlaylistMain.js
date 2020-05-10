@@ -19,6 +19,7 @@ class PlaylistMain extends React.Component {
             uris: [],
             selectedAudioData: {},
             selectedSong: '',
+            selectedSongName: '',
             paused: true,
         }
 
@@ -50,6 +51,7 @@ class PlaylistMain extends React.Component {
                 this.setState({
                     selectedAudioData: res,
                     selectedSong: songTrack.uri,
+                    selectedSongName: songTrack.name,
                     paused: false,
                 });
             })
@@ -61,6 +63,7 @@ class PlaylistMain extends React.Component {
     stopPlaying() {
         this.setState( {
             paused: true,
+            selectedSongName: '',
         });
     }
 
@@ -73,10 +76,18 @@ class PlaylistMain extends React.Component {
         } else {
             return (
                 <div id="playlist-main">
-                    <button onClick={this.stopPlaying}> Stop Song </button>
                     <SpotifyPlayback uris={uris} selectedSong={this.state.selectedSong} paused={this.state.paused} />
                     <Container fluid>
-                        {this.props.match.params.playlistName}
+                        {!this.state.selectedSongName && (
+                            <h4 id="playlist-main-title">
+                                {this.props.match.params.playlistName}
+                            </h4>
+                        )}
+                        {this.state.selectedSongName && (
+                            <h4 id="playlist-main-title">
+                                {this.props.match.params.playlistName}  - {this.state.selectedSongName} 
+                            </h4>
+                        )}
                         <Row>
                             <Col s={12} xs={12} md={6}>
                                 <ListGroup id="song-container" variant='flush'>
@@ -87,7 +98,10 @@ class PlaylistMain extends React.Component {
                                     ))}
                                 </ListGroup>
                             </Col>
-                            <Col s={12} xs={12} md={6} style={{height:300}}>
+                            <Col s={12} xs={12} md={6} style={{height:300}} id="graph-container" onClick={this.stopPlaying}>
+                                {!this.state.paused && (
+                                    <div id="stop-button"> Click Graph to Stop </div>
+                                )}
                                 <RadarGraph audioData={this.state.selectedAudioData} paused={this.state.paused} />
                             </Col>
                         </Row>

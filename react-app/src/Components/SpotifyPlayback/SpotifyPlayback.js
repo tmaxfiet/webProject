@@ -42,7 +42,7 @@ class SpotifyPlayback extends React.Component {
       if (this.props.selectedSong !== prevProps.selectedSong) {
         // A song selection changed, switch to this song
         axios.put( window.location.protocol + "//" + window.location.hostname + ":3001/spotify/start", {uris: [this.props.selectedSong]} ).then( (res) => {
-
+          console.log('New song selected: ', this.props.selectedSong);
         })
         .catch( (err) => {
           console.log('Error starting spotify: ', err);

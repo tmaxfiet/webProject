@@ -29,8 +29,17 @@ var options = {
 };
 
 class RadarGraph extends React.Component {
-    
+
+    constructor(props) {
+        super(props);
+        this.resetCharts = this.resetCharts.bind(this);
+    }
+
     componentDidMount() {
+        this.resetCharts();
+    }
+
+    resetCharts() {
         const beatsNode = this.beatsNode;
         const barsNode = this.barsNode;
         const segmentsNode = this.segmentsNode;
@@ -120,10 +129,11 @@ class RadarGraph extends React.Component {
         }
 
         // Reset all charts
-        this.myBeatsChart.reset();
-        this.myBarsChart.reset();
-        this.mySectionsChart.reset();
-        this.mySegmentsChart.reset();
+        this.myBeatsChart.destroy();
+        this.myBarsChart.destroy();
+        this.mySectionsChart.destroy();
+        this.mySegmentsChart.destroy();
+        this.resetCharts();
 
         if(this.props.paused !== prevProps.paused) {
             if(this.props.paused) {
@@ -219,6 +229,9 @@ class RadarGraph extends React.Component {
     render() {
         return (
             <div id="radar-graph-container">
+                {this.props.paused && (
+                    <div id="choose-song-container"> Choose a song! </div>
+                )}
                 <canvas
                     ref={node => (this.beatsNode = node)}
                     id='beats-canvas'

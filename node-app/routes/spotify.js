@@ -51,7 +51,7 @@ router.get('/redirectUri', cors(), (req, res) => {
   '?response_type=code' +
   '&client_id=' + client_id +
   (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-  '&redirect_uri=' + encodeURIComponent('http://taylor-virtualbox:3000/spotify/callback'))
+  '&redirect_uri=' + encodeURIComponent('http://localhost:3000/spotify/callback'))
 });
 
 router.post('/callback', express.json(), express.urlencoded({ extended: true }), (req, res) => {
@@ -63,7 +63,7 @@ router.post('/callback', express.json(), express.urlencoded({ extended: true }),
     form: {
       grant_type: 'authorization_code',
       code: req.body.token,
-      redirect_uri: 'http://taylor-virtualbox:3000/spotify/callback',
+      redirect_uri: 'http://localhost:3000/spotify/callback',
     },
     json: true
   };
@@ -84,42 +84,50 @@ router.get('/authToken', (req, res) => {
 });
 
 router.put('/start', express.json(), (req, res) => {
-  return new Promise((resolve, reject) => {
-    // use the access token to access the Spotify Web API
-    var token = login_access_token;
-    var uris = req.body.uris;
-    var options = {
-      url: 'https://api.spotify.com/v1/me/player/play',
-      headers: {
-        'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      },
-      body: {
-        uris: uris,
-      },
-      json: true
-    };
-    request.put(options, function(error, response, body) {
-      resolve(body);
-    });
-  });
+  res.send(
+    new Promise((resolve, reject) => {
+      // use the access token to access the Spotify Web API
+      var token = login_access_token;
+      var uris = req.body.uris;
+      var options = {
+        url: 'https://api.spotify.com/v1/me/player/play',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: {
+          uris: uris,
+        },
+        json: true
+      };
+      request.put(options, function(error, response, body) {
+        if (error) {
+          console.error('Error spotify.js: ', error);
+          reject(error);
+        }
+        resolve(body);
+      });
+    })
+  );
 })
 
 router.post('/stop', (req, res) => {
-  return new Promise((resolve, reject) => {
-    // use the access token to access the Spotify Web API
-    var token = login_access_token;
-    var options = {
-      url: `https://api.spotify.com/v1/me/player/pause`,
-      headers: {
-        'Authorization': 'Bearer ' + token
-      },
-      json: true
-    };
-    request.put(options, function(error, response, body) {
-      resolve(body);
-    });
-  });
+  res.send(
+    new Promise((resolve, reject) => {
+      // use the access token to access the Spotify Web API
+      var token = login_access_token;
+      var options = {
+        url: `https://api.spotify.com/v1/me/player/pause`,
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        json: true
+      };
+      request.put(options, function(error, response, body) {
+        resolve(body);
+      });
+    })
+  );
 })
 
 module.exports = router;

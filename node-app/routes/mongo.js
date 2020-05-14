@@ -1,7 +1,7 @@
 const express = require('express');
 
 const MongoClient = require("mongodb").MongoClient;
-const uri = "mongodb+srv://dbUser:Justinmax1024!@cluster0-crzjm.azure.mongodb.net/test?retryWrites=true&w=majority"
+const uri = ""
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const DATABASE_NAME = 'study_noise';
 

@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 function main() {
     // Connect to mongo client with uri
-    const uri = "mongodb+srv://dbUser:Justinmax1024!@cluster0-crzjm.azure.mongodb.net/test?retryWrites=true&w=majority"
+    const uri = ""
 
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 

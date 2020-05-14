@@ -7,7 +7,7 @@ const request = require('request'); // "Request" library
 const qs = require('querystring');
 
 var client_id = '5c21721d72e3461dbf5ea7b48e51da7f'; // Your client id
-var client_secret = ''; // Your secret
+var client_secret = '2174abe7db37474b8ad67e509fb221dc'; // Your secret
 var login_access_token = '';
 
 // your application requests authorization
@@ -128,6 +128,72 @@ router.post('/stop', (req, res) => {
       });
     })
   );
+})
+
+router.get('/playlistsBySearch', (req, res) => {
+  request.post(authOptions, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      // use the access token to access the Spotify Web API
+      var token = body.access_token;
+      var options = {
+          url: `https://api.spotify.com/v1/search?query=${req.query.keyword}&type=playlist`,
+          headers: {
+              'Authorization': 'Bearer ' + token
+          },
+          json: true
+      };
+      request.get(options, function (error, response, body) {
+          res.send(body)
+      });
+    }
+    else {
+        res.send(`Error in get PlaylistsBySearch" ${req.query.keyword}`);
+    }
+  });
+})
+
+router.get('/tracksByPlaylistId', (req, res) => {
+  request.post(authOptions, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      // use the access token to access the Spotify Web API
+      var token = body.access_token;
+      var options = {
+        url: `https://api.spotify.com/v1/playlists/${req.query.id}/tracks`,
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        json: true
+      };
+      request.get(options, function (error, response, body) {
+          res.send(body)
+      });
+    }
+    else {
+        res.send(`Error in get tracksByPlaylistId" ${req.query.id}`);
+    }
+  });
+})
+
+router.get('/audioAnalysisByTrackId', (req, res) => {
+  request.post(authOptions, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      // use the access token to access the Spotify Web API
+      var token = body.access_token;
+      var options = {
+        url: `https://api.spotify.com/v1/audio-analysis/${req.query.id}`,
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        json: true
+      };
+      request.get(options, function (error, response, body) {
+          res.send(body)
+      });
+    }
+    else {
+        res.send(`Error in get tracksByPlaylistId" ${req.query.id}`);
+    }
+  });
 })
 
 module.exports = router;

@@ -1,101 +1,39 @@
-const request = require('request'); // "Request" library
+import { dbBaseUrl } from '../Settings/constants';
 
-var client_id = '5c21721d72e3461dbf5ea7b48e51da7f'; // Your client id
-var client_secret = '2174abe7db37474b8ad67e509fb221dc'; // Your secret
-
-// your application requests authorization
-var authOptions = {
-  url: 'https://accounts.spotify.com/api/token',
-  headers: {
-    'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-  },
-  form: {
-    grant_type: 'client_credentials'
-  },
-  json: true
-};
-
-var stored_token = '';
-
-function getStoredToken() {
-    request.post(authOptions, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            // use the access token to access the Spotify Web API
-            stored_token = body.access_token;
-        }
-        else {
-            console.log(`Error in getting spotify service`);
-        }
-    });
-}
+const axios = require('axios');
 
 export async function getPlaylistsBySearch(searchKeyword) {
     return new Promise((resolve, reject) => {
-        request.post(authOptions, function (error, response, body) {
-            if (!error && response.statusCode === 200) {
-                // use the access token to access the Spotify Web API
-                var token = body.access_token;
-                stored_token = body.access_token;
-                var options = {
-                    url: `https://api.spotify.com/v1/search?query=${searchKeyword}&type=playlist`,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    json: true
-                };
-                request.get(options, function (error, response, body) {
-                    resolve(body);
-                });
-            }
-            else {
-                reject(`Error in getPlaylistsBySearch" ${searchKeyword}`);
-            }
-        });
+        axios.get(`${dbBaseUrl}/spotify/playlistsBySearch?keyword=${searchKeyword}`)
+        .then( (res) => {
+            resolve(res.data);
+        })
+        .catch( (err) => {
+            reject({});
+        })
     });
 }
 
 export async function getTracksByPlaylistId(playlistId) {
     return new Promise((resolve, reject) => {
-        request.post(authOptions, function (error, response, body) {
-            if (!error && response.statusCode === 200) {
-                // use the access token to access the Spotify Web API
-                var token = body.access_token;
-                stored_token = body.access_token;
-                var options = {
-                    url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    json: true
-                };
-                request.get(options, function (error, response, body) {
-                    resolve(body);
-                });
-            }
-            else {
-                reject(`Error in getTracksByPlaylistID: ${playlistId}`);
-            }
-        });
+        axios.get(`${dbBaseUrl}/spotify/tracksByPlaylistId?id=${playlistId}`)
+        .then( (res) => {
+            resolve(res.data);
+        })
+        .catch( (err) => {
+            reject({});
+        })
     });
 }
 
 export async function getAudioAnalysisByTrack(trackId) {
-    if (stored_token === '') {
-        getStoredToken();
-    }
-    console.log('stored token ', stored_token)
-
     return new Promise((resolve, reject) => {
-        var token = stored_token;
-        var options = {
-            url: `https://api.spotify.com/v1/audio-analysis/${trackId}`,
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            json: true
-        };
-        request.get(options, function (error, response, body) {
-            resolve(body);
-        });
+        axios.get(`${dbBaseUrl}/spotify/audioAnalysisByTrackId?id=${trackId}`)
+        .then( (res) => {
+            resolve(res.data);
+        })
+        .catch( (err) => {
+            reject({});
+        })
     });
 }

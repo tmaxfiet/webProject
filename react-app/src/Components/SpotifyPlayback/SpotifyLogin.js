@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import logo from '../../Assets/Spotify_Logo_RGB_Green.png';
 import './SpotifyLogin.css';
+import { dbBaseUrl } from '../../Settings/constants';
 
 class SpotifyLogin extends React.Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class SpotifyLogin extends React.Component {
     }
 
     loginRedirect() {
-        const urlString = window.location.protocol + "//" + window.location.hostname + ":3001/spotify/redirectUri";
+        const urlString = dbBaseUrl + "/spotify/redirectUri";
         axios.get(urlString, {
             params: {
                 currUri: window.location.pathname,

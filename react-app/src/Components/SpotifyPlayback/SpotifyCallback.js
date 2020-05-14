@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import { dbBaseUrl } from '../../Settings/constants';
 
 class SpotifyCallback extends React.Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class SpotifyCallback extends React.Component {
         console.log('sdfsd ', window.location.search)
         console.log('Spotify Callback, token: ', window.location.search.substring(6))
         const adjToken = window.location.search.substring(6)
-        const urlString = window.location.protocol + "//" + window.location.hostname + ":3001/spotify/callback";
+        const urlString = dbBaseUrl + "/spotify/callback";
         axios.post(urlString, {token: adjToken} )
             .then( (res) => {
                 this.setState({token: adjToken});

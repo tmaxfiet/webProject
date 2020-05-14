@@ -1,6 +1,7 @@
 import React from 'react';
 import TopicTeaser from './TopicTeaser';
 import SpotifyLogin from '../SpotifyPlayback/SpotifyLogin';
+import { dbBaseUrl } from '../../Settings/constants';
 const axios = require('axios'); 
 
 class TopicMain extends React.Component {
@@ -16,7 +17,7 @@ class TopicMain extends React.Component {
     }
 
     componentDidMount() {
-        const urlString = window.location.protocol + "//" + window.location.hostname + ":3001/data/collectionNames";
+        const urlString = dbBaseUrl + "/data/collectionNames";
         axios.get(urlString)
             .then( (res) => {
                 var newToken = '';

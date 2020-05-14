@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PlaylistMain from '../Components/Playlist/PlaylistMain';
+import { dbBaseUrl } from '../Settings/constants';
 const axios = require('axios');
 
 class DocumentRouteService extends React.Component {
@@ -22,7 +23,7 @@ class DocumentRouteService extends React.Component {
 
     setDocumentRoutes() {
         // Get all
-        const urlString = window.location.protocol + "//" + window.location.hostname + `:3001/data/${this.props.genreName.toLowerCase()}`;
+        const urlString = dbBaseUrl + `/data/${this.props.genreName.toLowerCase()}`;
         axios.get(urlString)
             .then( (res) => {
                 this.setState({

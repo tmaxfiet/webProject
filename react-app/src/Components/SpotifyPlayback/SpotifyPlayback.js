@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { dbBaseUrl } from '../../Settings/constants';
 
 class SpotifyPlayback extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class SpotifyPlayback extends React.Component {
 
     componentDidMount() {
       if (window.Spotify !== null) {
-        const urlString = window.location.protocol + "//" + window.location.hostname + ":3001/spotify/authToken";
+        const urlString = dbBaseUrl + "/spotify/authToken";
         axios.get(urlString)
           .then( (res) => {
               if (res.data !== '') {
@@ -41,7 +42,7 @@ class SpotifyPlayback extends React.Component {
     componentDidUpdate(prevProps) {
       if (this.props.selectedSong !== prevProps.selectedSong) {
         // A song selection changed, switch to this song
-        axios.put( window.location.protocol + "//" + window.location.hostname + ":3001/spotify/start", {uris: [this.props.selectedSong]} ).then( (res) => {
+        axios.put( dbBaseUrl + "/spotify/start", {uris: [this.props.selectedSong]} ).then( (res) => {
           console.log('New song selected: ', this.props.selectedSong);
         })
         .catch( (err) => {
@@ -89,7 +90,7 @@ class SpotifyPlayback extends React.Component {
 
     startPlayingAll() {
       console.log('all ', this.props.uris);
-      axios.put( window.location.protocol + "//" + window.location.hostname + ":3001/spotify/start", {uris: this.props.uris} ).then( (res) => {
+      axios.put( dbBaseUrl + "/spotify/start", {uris: this.props.uris} ).then( (res) => {
 
       })
       .catch( (err) => {
@@ -98,7 +99,7 @@ class SpotifyPlayback extends React.Component {
     }
 
     stopPlaying() {
-      axios.post( window.location.protocol + "//" + window.location.hostname + ":3001/spotify/stop").then( (res) => {
+      axios.post( dbBaseUrl + "/spotify/stop").then( (res) => {
         
       })
       .catch( (err) => {

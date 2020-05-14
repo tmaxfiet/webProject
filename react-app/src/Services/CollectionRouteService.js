@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import PlaylistSelectorMain from '../Components/PlaylistSelector/PlaylistSelectorMain';
 import * as Constants from '../Settings/constants';
 import PlaylistMain from '../Components/Playlist/PlaylistMain';
+import { dbBaseUrl } from '../Settings/constants';
 const axios = require('axios');
 
 class CollectionRouteService extends React.Component {
@@ -26,7 +27,7 @@ class CollectionRouteService extends React.Component {
 
     setCollectionRoutes() {
         // Acquire all collection names
-        const urlString = window.location.protocol + "//" + window.location.hostname + `:3001/${Constants.collectionNamesRoute}`;
+        const urlString = dbBaseUrl + `/${Constants.collectionNamesRoute}`;
         axios.get(urlString)
             .then( (res) => {
                 this.setState({

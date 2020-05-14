@@ -7,7 +7,7 @@ const request = require('request'); // "Request" library
 const qs = require('querystring');
 
 var client_id = '5c21721d72e3461dbf5ea7b48e51da7f'; // Your client id
-var client_secret = '2174abe7db37474b8ad67e509fb221dc'; // Your secret
+var client_secret = ''; // Your secret
 var login_access_token = '';
 
 // your application requests authorization

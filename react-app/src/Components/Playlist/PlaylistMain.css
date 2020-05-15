@@ -10,6 +10,26 @@
     font-size: 1.6em;
 }
 
+.song-div:nth-child(odd) {
+    background-color: rgb(255, 255, 255);
+}
+
+.song-div:nth-child(even) {
+    background-color: rgb(232, 237, 234);
+}
+
+.song-div:nth-child(odd):hover {
+    background-color: rgb(210, 245, 206);
+}
+
+.song-div:nth-child(even):hover {
+    background-color: rgb(162, 209, 157);
+}
+
+.song-div-item {
+    background-color: inherit !important;
+}
+
 #playlist-main-title {
     text-align: center;
     padding: 10px;

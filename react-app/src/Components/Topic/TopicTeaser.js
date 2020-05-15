@@ -1,25 +1,69 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Jumbotron from 'react-bootstrap/Jumbotron';
+import './TopicTeaser.css';
+import popBackground from '../../Assets/pop-banner-1.jpg'
+import countryBackground from '../../Assets/country-banner-1.jpg'
+import hipHopBackground from '../../Assets/hipHop-banner-1.jpg'
+import rockBackground from '../../Assets/rock-banner-1.jpg'
+import studyingBackground from '../../Assets/studying-banner-1.jpg'
+import gamingBackground from '../../Assets/gaming-banner-1.jpg'
+import indieBackground from '../../Assets/indie-banner-1.jpg'
 
 class TopicTeaser extends React.Component {
     constructor(props) {
         super(props);
-
-        this.handleJumbotronClick = this.handleJumbotronClick.bind(this);
+        
+        this.state ={
+            backgroundUrl: '../../Assets/graybackground.jpg',
+        };
     }
 
-    handleJumbotronClick() {
+    componentDidMount() {
+        if (this.props.topicName === 'Pop') {
+            this.setState({
+                backgroundUrl: popBackground,
+            });
+        }
+        else if (this.props.topicName === 'Country') {
+            this.setState({
+                backgroundUrl: countryBackground,
+            });
+        }
+        else if (this.props.topicName === 'Hip Hop') {
+            this.setState({
+                backgroundUrl: hipHopBackground,
+            });
+        }
+        else if (this.props.topicName === 'Rock') {
+            this.setState({
+                backgroundUrl: rockBackground,
+            });
+        }
+        else if (this.props.topicName === 'Studying') {
+            this.setState({
+                backgroundUrl: studyingBackground,
+            });
+        }
+        else if (this.props.topicName === 'Gaming') {
+            this.setState({
+                backgroundUrl: gamingBackground,
+            });
+        }
+        else if (this.props.topicName === 'Indie') {
+            this.setState({
+                backgroundUrl: indieBackground,
+            });
+        }
     }
 
     render() {
         return (
-            <Link to={"/"+this.props.topicName.toLowerCase()}>
-                <Jumbotron onClick={this.handleJumbotronClick}>
-                    <h2> {this.props.topicName} </h2>
-                    <p>
-                        Flavor Text
-                    </p>
+            <Link className="jumbotron-link" to={"/"+this.props.topicName.toLowerCase()}>
+                <Jumbotron className="jumbotron-container" style={{backgroundImage: 
+                    `url(${this.state.backgroundUrl}),
+                    radial-gradient(circle, rgba(46,99,67,1) 58%, rgba(41,149,84,1) 65%, rgba(162,214,179,1) 96%)`}}>
+                    <h2 className="jumbotron-title"> {this.props.topicName} </h2>
                 </Jumbotron>
             </Link>
         );

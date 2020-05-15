@@ -6,9 +6,9 @@ import './NavBar.css';
 class NavBar extends React.Component {
     render() {
         return (
-            <Navbar id="navbar-main" expand="lg" variant="light" style={{backgroundColor: "#b5d6bd"}}>
+            <Navbar id="navbar-main" expand="lg" variant="light">
                 <Link to="/">
-                    <Navbar.Brand> {this.props.brand} </Navbar.Brand>
+                    <Navbar.Brand id="navbar-title"> {this.props.brand} </Navbar.Brand>
                 </Link>
             </Navbar>
         );

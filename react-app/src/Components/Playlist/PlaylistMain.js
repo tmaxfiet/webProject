@@ -93,7 +93,7 @@ class PlaylistMain extends React.Component {
                                 <ListGroup id="song-container" variant='flush'>
                                     {songs.map( (song) => (
                                         <div className="song-div" key={song.track.id} onClick={() => {this.setupAudioAnalysis(song.track) }}> 
-                                            <ListGroup.Item action className="song-div"> { song.track.name } </ListGroup.Item>
+                                            <ListGroup.Item action className="song-div-item"> { song.track.name } </ListGroup.Item>
                                         </div>
                                     ))}
                                 </ListGroup>

@@ -38,7 +38,7 @@ class TopicMain extends React.Component {
     render() {
         const { error, isLoaded, topicNames, token } = this.state;
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <div id="topic-main-error">Error: {error.message}</div>;
         } else if (!isLoaded) {
             return <div id="topic-main-loading">Loading...</div>;
         } else {

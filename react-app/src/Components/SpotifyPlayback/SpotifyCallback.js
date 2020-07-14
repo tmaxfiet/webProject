@@ -13,9 +13,9 @@ class SpotifyCallback extends React.Component {
     }
 
     componentDidMount() {
-        console.log('sdfsd ', window.location.search)
-        console.log('Spotify Callback, token: ', window.location.search.substring(6))
-        const adjToken = window.location.search.substring(6)
+        const queryString = require('query-string');
+        var parsed = queryString.parse(this.props.location.search);
+        const adjToken = parsed.code;
         const urlString = dbBaseUrl + "/spotify/callback";
         axios.post(urlString, {token: adjToken} )
             .then( (res) => {

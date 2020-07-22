@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import * as spotifyService from '../../Services/SpotifyService';
+import spotifyService from '../../Services/SpotifyService';
 import './PlaylistMain.css';
 import SpotifyPlayback from '../SpotifyPlayback/SpotifyPlayback';
 import RadarGraph from '../RadarGraph/RadarGraph';

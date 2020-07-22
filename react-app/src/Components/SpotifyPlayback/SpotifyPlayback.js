@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { dbBaseUrl } from '../../Settings/constants';
+import spotifyService from '../../Services/SpotifyService';
 
 class SpotifyPlayback extends React.Component {
     constructor(props) {
@@ -17,32 +18,26 @@ class SpotifyPlayback extends React.Component {
 
     componentDidMount() {
       if (window.Spotify !== null) {
-        const urlString = dbBaseUrl + "/spotify/authToken";
-        axios.get(urlString)
-          .then( (res) => {
-              if (res.data !== '') {
-                this.setState( {
-                  token: res.data
-                })
-                this.player = new window.Spotify.Player({
-                  name: "New Spotify Player",
-                  getOAuthToken: cb => { cb(this.state.token); },
-                });
-                this.createEventHandlers();
-
-                this.player.connect();
-              }
+        if (spotifyService.login_access_token) {
+          this.setState( {
+            token: spotifyService.login_access_token
           })
-          .catch( (err) => {
-              console.log('Error in spotify playback get: ', err);
+
+          this.player = new window.Spotify.Player({
+            name: "Study Noise Player",
+            getOAuthToken: cb => { cb(this.state.token); },
           });
+          this.createEventHandlers();
+
+          this.player.connect();
+          }
       }
     }
 
     componentDidUpdate(prevProps) {
       if (this.props.selectedSong !== prevProps.selectedSong) {
         // A song selection changed, switch to this song
-        axios.put( dbBaseUrl + "/spotify/start", {uris: [this.props.selectedSong]} ).then( (res) => {
+        axios.put( dbBaseUrl + "/spotify/start", {uris: [this.props.selectedSong], device_id: this.state.deviceId, login_token: spotifyService.login_access_token } ).then( (res) => {
           console.log('New song selected: ', this.props.selectedSong);
         })
         .catch( (err) => {
@@ -85,12 +80,11 @@ class SpotifyPlayback extends React.Component {
     }
 
     onStateChanged(state) {
-      console.log('onStateChanged from spotifyPlayback: ', state);
+    
     }
 
     startPlayingAll() {
-      console.log('all ', this.props.uris);
-      axios.put( dbBaseUrl + "/spotify/start", {uris: this.props.uris} ).then( (res) => {
+      axios.put( dbBaseUrl + "/spotify/start", {uris: this.props.uris, device_id: this.state.device_i, login_token: spotifyService.login_access_token } ).then( (res) => {
 
       })
       .catch( (err) => {
@@ -99,7 +93,7 @@ class SpotifyPlayback extends React.Component {
     }
 
     stopPlaying() {
-      axios.post( dbBaseUrl + "/spotify/stop").then( (res) => {
+      axios.post( dbBaseUrl + "/spotify/stop", {login_token: spotifyService.login_access_token }).then( (res) => {
         
       })
       .catch( (err) => {

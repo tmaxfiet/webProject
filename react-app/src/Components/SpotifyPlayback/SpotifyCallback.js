@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 import { dbBaseUrl } from '../../Settings/constants';
+import spotifyService from '../../Services/SpotifyService';
 
 class SpotifyCallback extends React.Component {
     constructor(props) {
@@ -17,9 +18,13 @@ class SpotifyCallback extends React.Component {
         var parsed = queryString.parse(this.props.location.search);
         const adjToken = parsed.code;
         const urlString = dbBaseUrl + "/spotify/callback";
+
         axios.post(urlString, {token: adjToken} )
             .then( (res) => {
-                this.setState({token: adjToken});
+                if (res.data !== 'Error Spotify Callback') {
+                spotifyService.login_access_token = res.data;
+                    this.setState({token: adjToken});
+                }
             })
             .catch( (err) => {
                 console.log('Error in spotify callback post: ', err);

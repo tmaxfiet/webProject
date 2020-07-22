@@ -1,6 +1,6 @@
 import React from 'react';
 import PlaylistTeaser from './PlaylistTeaser';
-import * as spotifyService from '../../Services/SpotifyService';
+import spotifyService from '../../Services/SpotifyService';
 
 class PlaylistSelectorMain extends React.Component {
     constructor(props) {

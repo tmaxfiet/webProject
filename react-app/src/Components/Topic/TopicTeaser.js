@@ -61,8 +61,7 @@ class TopicTeaser extends React.Component {
         return (
             <Link className="jumbotron-link" to={"/"+this.props.topicName.toLowerCase()}>
                 <Jumbotron className="jumbotron-container" style={{backgroundImage: 
-                    `url(${this.state.backgroundUrl}),
-                    radial-gradient(circle, rgba(46,99,67,1) 58%, rgba(41,149,84,1) 65%, rgba(162,214,179,1) 96%)`}}>
+                    `url(${this.state.backgroundUrl})`}}>
                     <h2 className="jumbotron-title"> {this.props.topicName} </h2>
                 </Jumbotron>
             </Link>

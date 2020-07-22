@@ -28,22 +28,3 @@ function App() {
 }
 
 export default App;
-
-/* 
-    <div>
-      <BrowserRouter>
-        <Route path="/spotify/callback" render={({ location }) =>
-            <div className="App" id="homePage">
-              <SpotifyCallback location={location} />
-            </div>
-          } />
-      </BrowserRouter>
-      <Router>
-        <NavBar brand="Study Noise"></NavBar>
-        <div id="app-main-container" style={{backgroundImage: `url(${mainBackground})`}}>
-          <Route exact={true} path="/" component={TopicMain} />
-          <CollectionRouteService />
-        </div>
-      </Router>
-    </div>
-  ); */

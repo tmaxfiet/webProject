@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import logo from '../../Assets/Spotify_Logo_RGB_Green.png';
 import './SpotifyLogin.css';
 import { dbBaseUrl } from '../../Settings/constants';
+import spotifyService from '../../Services/SpotifyService';
 
 class SpotifyLogin extends React.Component {
     constructor(props) {
@@ -15,7 +16,6 @@ class SpotifyLogin extends React.Component {
     }
 
     componentDidMount() {
-        console.log('spotifylogin ', this.props.token)
     }
 
     loginRedirect() {
@@ -33,7 +33,7 @@ class SpotifyLogin extends React.Component {
     }
 
     render() {
-        if(!this.props.token) {
+        if(!spotifyService.login_access_token) {
             return (
                 <Row className="justify-content-md-center" id="spotify-login-container">
                     <Col xs={12} sm={6} lg={3}>
@@ -54,7 +54,7 @@ class SpotifyLogin extends React.Component {
             )
         } else {
             return (
-                <div> Logged In </div>
+                <div> Logged In! </div>
             )
         }
     }

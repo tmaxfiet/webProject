@@ -8,7 +8,6 @@ const qs = require('querystring');
 
 var client_id = ''; // Your client id
 var client_secret = ''; // Your secret
-var login_access_token = '';
 
 // your application requests authorization
 var authOptions = {
@@ -69,28 +68,24 @@ router.post('/callback', express.json(), express.urlencoded({ extended: true }),
   };
   request.post(authLoginOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-        // spotify returns access token, save it
-        login_access_token = body.access_token;
-        console.log('access_token successful! ', login_access_token);
+        // spotify returns access token, send it back
+        res.send(body.access_token);
     } else {
+        res.send('Error Spotify Callback');
         console.log(`Error at spotify/callback`);
     }
   });
-  res.send('ok');
-});
-
-router.get('/authToken', (req, res) => {
-  res.send(login_access_token);
 });
 
 router.put('/start', express.json(), (req, res) => {
   res.send(
     new Promise((resolve, reject) => {
       // use the access token to access the Spotify Web API
-      var token = login_access_token;
+      var token = req.body.login_token;
       var uris = req.body.uris;
+      var device_id = req.body.device_id;
       var options = {
-        url: 'https://api.spotify.com/v1/me/player/play',
+        url: `https://api.spotify.com/v1/me/player/play?device_id=${device_id}`,
         headers: {
           'Authorization': 'Bearer ' + token,
           'Content-Type': 'application/json'
@@ -115,7 +110,7 @@ router.post('/stop', (req, res) => {
   res.send(
     new Promise((resolve, reject) => {
       // use the access token to access the Spotify Web API
-      var token = login_access_token;
+      var token = req.body.login_token;
       var options = {
         url: `https://api.spotify.com/v1/me/player/pause`,
         headers: {

@@ -106,7 +106,7 @@ router.put('/start', express.json(), (req, res) => {
   );
 })
 
-router.post('/stop', (req, res) => {
+router.post('/stop', express.json(), (req, res) => {
   res.send(
     new Promise((resolve, reject) => {
       // use the access token to access the Spotify Web API
